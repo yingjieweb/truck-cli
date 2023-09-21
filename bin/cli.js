@@ -1,1 +1,21 @@
-console.log("hello truck-cli");
+#!/usr/bin/env node
+const { Command } = require("commander");
+const pkg = require("../package.json");
+
+const program = new Command();
+
+program
+  .name("truck-cli")
+  .description(
+    "A command-line tool for streamlining the front-end CI/CD workflow."
+  )
+  .version(pkg.version);
+
+program
+  .command("release")
+  .description("Update the version of the current repository.")
+  .action(() => {
+    console.log("// TODO: bump version");
+  });
+
+program.parse();
