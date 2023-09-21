@@ -1,0 +1,20 @@
+{
+  "name": "truck-cli",
+  "version": "0.0.1",
+  "description": "A command-line tool for streamlining the front-end CI/CD workflow.",
+  "main": "bin/index.js",
+  "bin": {
+    "tr": "cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli",
+    "bump version",
+    "publish"
+  ],
+  "repository": "https://github.com/yingjieweb/truck-cli",
+  "author": "yingjieweb <yingjieweb@qq.com>",
+  "license": "MIT"
+}
