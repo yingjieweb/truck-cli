@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "commander": "^11.0.0",
-    "inquirer": "^8.2.6"
+    "inquirer": "^8.2.6",
+    "semver": "^7.5.4"
   }
 }
