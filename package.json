@@ -16,5 +16,8 @@
   ],
   "repository": "https://github.com/yingjieweb/truck-cli",
   "author": "yingjieweb <yingjieweb@qq.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.0.0"
+  }
 }
