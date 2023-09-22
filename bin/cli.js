@@ -1,9 +1,7 @@
 #!/usr/bin/env node
-const { Command } = require("commander");
+const { program } = require('commander');
 const pkg = require("../package.json");
 const API = require("../lib");
-
-const program = new Command();
 
 program
   .name("truck-cli")
