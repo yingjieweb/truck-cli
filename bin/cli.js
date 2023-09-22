@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { Command } = require("commander");
 const pkg = require("../package.json");
+const API = require("../lib");
 
 const program = new Command();
 
@@ -15,7 +16,7 @@ program
   .command("release")
   .description("Update the version of the current repository.")
   .action(() => {
-    console.log("// TODO: bump version");
+    API.release();
   });
 
 program.parse();
