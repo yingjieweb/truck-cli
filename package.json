@@ -4,7 +4,7 @@
   "description": "A command-line tool for streamlining the front-end CI/CD workflow.",
   "main": "lib/index.js",
   "bin": {
-    "tr": "bin/cli.js"
+    "tk": "bin/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
