@@ -2,9 +2,9 @@
   "name": "truck-cli",
   "version": "1.1.1",
   "description": "A command-line tool for streamlining the front-end CI/CD workflow.",
-  "main": "bin/index.js",
+  "main": "lib/index.js",
   "bin": {
-    "tr": "cli.js"
+    "tr": "bin/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
