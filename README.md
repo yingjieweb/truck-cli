@@ -28,9 +28,9 @@ Commands:
   help [command]  display help for command
 ```
 
-### Truck-CLI workflow 🧫
+## Truck-CLI workflow 🧫
 
-#### release 🎉
+### release 🎉
 
 1. Checking if the working area is clean?
    - Clean -> Continue
