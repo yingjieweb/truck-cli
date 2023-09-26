@@ -28,7 +28,7 @@ Commands:
   help [command]  display help for command
 ```
 
-## Truck-CLI workflow 🧫
+## Workflow 🧫
 
 ### release 🎉
 
