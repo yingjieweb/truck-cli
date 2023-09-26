@@ -37,11 +37,7 @@ Commands:
    - Non-clean -> Exit
 2. Checking if the origin/master branch is merged into the current branch?
    - Merged -> Continue
-   - Not merged -> Ask whether to merge
-     - Merge -> Execute merge operation
-       - Merge success -> Continue
-       - Merge failure -> Exit
-     - Not merge -> Exit
+   - Not merged -> Exit
 3. Get the current repo version number
    - Get success -> Continue
    - Get failure -> Exit
