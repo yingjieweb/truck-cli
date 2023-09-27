@@ -32,17 +32,4 @@ Commands:
 
 ### release 🎉
 
-1. Checking if the working area is clean?
-   - Clean -> Continue
-   - Non-clean -> Exit
-2. Checking if the origin/master branch is merged into the current branch?
-   - Merged -> Continue
-   - Not merged -> Exit
-3. Get the current repo version number
-   - Get success -> Continue
-   - Get failure -> Exit
-4. Get the next version number
-5. Input the release message (default: release x.x.x)
-6. Update the version number and create a release tag
-7. Commit and push to the remote repository
-8. Adding Ding notify
+![release](./assets/release.png)
