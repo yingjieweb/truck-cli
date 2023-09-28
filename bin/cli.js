@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const { program } = require('commander');
+const { program } = require("commander");
 const pkg = require("../package.json");
-const API = require("../lib");
+const releaseAPI = require("../lib/release");
 
 program
   .name("truck-cli")
@@ -14,7 +14,7 @@ program
   .command("release")
   .description("Update the version of the current repository.")
   .action(() => {
-    API.release();
+    releaseAPI.release();
   });
 
 program.parse();
