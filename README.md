@@ -14,18 +14,21 @@ yarn global add truck-cli
 
 ## Usage 👨‍💻
 
-You are supposed to have a `package.json` file in your project. Please note that the `version` field in your `package.json` file must be a valid semantic version. And execute the following command in your project root directory to update the version of your project. 
+You are supposed to have a `package.json` file in your project. Please note that the `version` field in your `package.json` file must be a valid semantic version. Execute the following command in your project root directory to update the version of your project. And you can use the `config` command to satisfy different use cases.
 
 ```
-tk [options] [command]
+Usage: truck-cli [options] [command]
+
+A command-line tool for streamlining the front-end CI/CD workflow.
 
 Options:
-  -V, --version   output the version number
-  -h, --help      display help for command
+  -V, --version     output the version number
+  -h, --help        display help for command
 
 Commands:
-  release         Update the version of the current repository.
-  help [command]  display help for command
+  release           Update the version of the current repository.
+  config [options]  Set the runtime config of truck-cli.
+  help [command]    display help for command
 ```
 
 ## Workflow 🧫
@@ -33,3 +36,15 @@ Commands:
 ### release 🎉
 
 ![release](./assets/release.png)
+
+### set-repo-config 🔧
+
+![set-repo-config]()
+
+<!-- ### create-template 📄 // TODO -->
+
+<!-- ![create-template]() -->
+
+<!-- ### support-ci/cd/yml 🚗 // TODO -->
+
+<!-- ![support-ci/cd/yml]() -->
