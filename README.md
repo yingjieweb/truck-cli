@@ -28,6 +28,7 @@ Options:
 Commands:
   release           Update the version of the current repository.
   config [options]  Set the runtime config of truck-cli.
+  lang [options]    Set the language of the current repository.
   help [command]    display help for command
 ```
 
@@ -40,6 +41,10 @@ Commands:
 ### set-repo-config 🔧
 
 ![set-repo-config]()
+
+### set-lang 🌎
+
+![set-lang]()
 
 <!-- ### create-template 📄 // TODO -->
 
