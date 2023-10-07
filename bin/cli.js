@@ -3,6 +3,7 @@ const { program } = require("commander");
 const pkg = require("../package.json");
 const releaseAPI = require("../lib/release");
 const setConfigAPI = require("../lib/setConfig");
+const setLangAPI = require("../lib/setLang");
 
 program
   .name("truck-cli")
@@ -34,6 +35,17 @@ program
   )
   .action((options) => {
     setConfigAPI.setConfig(options);
+  });
+
+program
+  .command("lang")
+  .description("Set the language of the current repository.")
+  .option(
+    "-s, --set <set>",
+    "Set the language for the current repository (en or zh)."
+  )
+  .action((options) => {
+    setLangAPI.setLang(options);
   });
 
 program.parse();
