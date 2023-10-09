@@ -53,3 +53,23 @@ Commands:
 <!-- ### support-ci/cd/yml 🚗 // TODO -->
 
 <!-- ![support-ci/cd/yml]() -->
+
+<!-- ```
+┌  Welcome to TK!
+│
+◇  Where should TK initialize the config?
+│  ./docs
+│
+◇  Site title:
+│  My Awesome Project
+│
+◇  Site description:
+│  A TK Site
+│
+◆  Theme:
+│  ● Default Theme (Out of the box, good-looking docs)
+│  ○ Default Theme + Customization
+│  ○ Custom Theme
+|
+└  End
+``` -->
