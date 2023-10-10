@@ -7,7 +7,8 @@
     "tk": "src/bin/cli.js"
   },
   "scripts": {
-    "test": "mocha test/*.js"
+    "test": "nyc mocha test/*.js",
+    "coverage": "nyc report --reporter=html"
   },
   "keywords": [
     "cli",
