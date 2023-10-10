@@ -25,3 +25,4 @@ yarn-error.log*
 
 # Coverage preview files
 /coverage
+/.nyc_output
