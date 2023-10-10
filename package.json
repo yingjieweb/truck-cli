@@ -22,5 +22,10 @@
     "commander": "^10.0.1",
     "inquirer": "^8.2.6",
     "semver": "^7.5.4"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "sinon": "^16.1.0"
   }
 }
