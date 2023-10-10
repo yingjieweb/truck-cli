@@ -36,7 +36,7 @@ Commands:
 
 ### release 🎉
 
-![release](./assets/release.png)
+![release](./src/assets/release.png)
 
 ### set-repo-config 🔧
 

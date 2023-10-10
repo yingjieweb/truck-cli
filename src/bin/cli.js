@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const { program } = require("commander");
-const pkg = require("../package.json");
+const pkg = require("../../package.json");
 const releaseAPI = require("../lib/release");
 const setConfigAPI = require("../lib/setConfig");
 const setLangAPI = require("../lib/setLang");
