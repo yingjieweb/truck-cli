@@ -1,6 +1,15 @@
-# 🎡 Truck-CLI
+<p align="center" style="font-size: 88px; line-height: 88px"> 🚚 </p>
+<p align="center">An indispensable tool that streamlines the front-end CI/CD workflow.</p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/truck-cli" target="_blank">
+    <img src="https://img.shields.io/npm/v/truck-cli.svg" alt="NPM Version" />
+  </a>
+  <a href="https://www.npmjs.com/package/truck-cli" target="_blank">
+    <img src="https://img.shields.io/npm/l/truck-cli.svg" alt="Package License" />
+  </a>
+</p>
 
-Truck-CLI is an indispensable tool that streamlines the front-end CI/CD workflow.
+<!-- ## Why use Truck-CLI? 🤔 -->
 
 ## Installation 🛠
 
@@ -34,42 +43,8 @@ Commands:
 
 ## Workflow 🧫
 
-### release 🎉
+![workflow](./src/assets/workflow.png)
 
-![release](./src/assets/release.png)
+## License
 
-### set-repo-config 🔧
-
-![set-repo-config]()
-
-### set-lang 🌎
-
-![set-lang]()
-
-<!-- ### create-template 📄 // TODO -->
-
-<!-- ![create-template]() -->
-
-<!-- ### support-ci/cd/yml 🚗 // TODO -->
-
-<!-- ![support-ci/cd/yml]() -->
-
-<!-- ```
-┌  Welcome to TK!
-│
-◇  Where should TK initialize the config?
-│  ./docs
-│
-◇  Site title:
-│  My Awesome Project
-│
-◇  Site description:
-│  A TK Site
-│
-◆  Theme:
-│  ● Default Theme (Out of the box, good-looking docs)
-│  ○ Default Theme + Customization
-│  ○ Custom Theme
-|
-└  End
-``` -->
+Nest is [MIT licensed](LICENSE).
