@@ -1,4 +1,6 @@
-<p align="center" style="font-size: 88px; line-height: 88px"> 🚚 </p>
+<p align="center">
+  <img style="width: 100px;" src="./src/assets/logo.png" alt="logo.png" />
+</p>
 <p align="center">An indispensable tool that streamlines the front-end CI/CD workflow.</p>
 <p align="center">
   <a href="https://www.npmjs.com/package/truck-cli" target="_blank">
