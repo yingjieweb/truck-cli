@@ -24,6 +24,9 @@ jobs:
       - name: Run tests
         run: ./node_modules/.bin/nyc ./node_modules/.bin/mocha test/*.js
 
+      - name: Get coverage
+        run: ./node_modules/.bin/nyc report --reporter=html
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
