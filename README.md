@@ -12,8 +12,8 @@
   <a href="https://www.npmjs.com/package/truck-cli" target="_blank">
     <img src="https://img.shields.io/npm/dm/truck-cli" alt="npm" />
   </a>
-  <a href="https://github.com/yingjieweb/truck-cli/actions/workflows/ci.yml" target="_blank">
-    <img src="https://github.com/yingjieweb/truck-cli/actions/workflows/ci.yml/badge.svg?branch=main" alt="ci" />
+  <a href="https://github.com/yingjieweb/truck-cli/actions/workflows/test.yml" target="_blank">
+    <img src="https://github.com/yingjieweb/truck-cli/actions/workflows/test.yml/badge.svg?branch=main" alt="test" />
   </a>
   <a href="https://codecov.io/gh/yingjieweb/truck-cli" target="_blank"> 
     <img src="https://codecov.io/gh/yingjieweb/truck-cli/graph/badge.svg?token=FYF4XVHIMF" alt="coverage" /> 
