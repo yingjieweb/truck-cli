@@ -62,4 +62,4 @@ Commands:
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+Truck-CLI is [MIT licensed](LICENSE).
