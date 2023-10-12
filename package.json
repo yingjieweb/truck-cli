@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "nyc mocha test/*.js",
-    "coverage": "nyc report --reporter=html"
+    "coverage:xml": "nyc report --reporter=cobertura",
+    "coverage:html": "nyc report --reporter=html"
   },
   "keywords": [
     "cli",
