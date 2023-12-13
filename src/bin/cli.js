@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { program } = require("commander");
 const pkg = require("../../package.json");
+const checkUpdateAPI = require("../lib/checkUpdate");
 const releaseAPI = require("../lib/release");
 const setConfigAPI = require("../lib/setConfig");
 const setLangAPI = require("../lib/setLang");
@@ -11,6 +12,13 @@ program
     "A command-line tool for streamlining the front-end CI/CD workflow."
   )
   .version(pkg.version);
+
+program
+  .command("checkupdate")
+  .description("Check for updates.")
+  .action(() => {
+    checkUpdateAPI.checkForUpdate(pkg.version);
+  });
 
 program
   .command("release")
