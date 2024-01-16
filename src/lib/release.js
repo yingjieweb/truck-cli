@@ -39,13 +39,18 @@ const question2 = {
 const question3 = () => ({
   type: "list",
   name: "nextRepoVersion",
-  message: `请选择下一个版本号 (当前版本为: ${config.currentRepoVersion})`,
+  message: `请选择下一个版本号(当前版本为: ${config.currentRepoVersion})`,
   choices: Object.keys(config.nextRepoVersionOptions).map((name) => ({
     name: `${name} => ${config.nextRepoVersionOptions[name]}`,
     value: config.nextRepoVersionOptions[name],
   })),
 });
 const question4 = () => ({
+  type: "input",
+  name: "nextRepoVersion",
+  message: `请输入下一个版本号(当前版本为: ${config.currentRepoVersion})`,
+});
+const question5 = () => ({
   type: "input",
   name: "releaseMessage",
   message: `请输入本次发布的描述信息`,
@@ -92,11 +97,21 @@ module.exports.release = async () => {
   const isValid = checkIsVersionValid(curRepoVersion);
   if (!isValid) return;
   config.currentRepoVersion = curRepoVersion;
-  config.nextRepoVersionOptions = getNextRepoVersionOptions(curRepoVersion);
+  config.nextRepoVersionOptions = await getNextRepoVersionOptions(
+    curRepoVersion
+  );
   const answer3 = await inquirer.prompt(question3());
-  Object.assign(config, answer3);
-  const answer4 = await inquirer.prompt(question4());
-  Object.assign(config, answer4);
+  if (answer3.nextRepoVersion !== "自定义本次发布版本号") {
+    Object.assign(config, answer3);
+  } else {
+    let answer4 = await inquirer.prompt(question4());
+    while (!checkIsVersionValid(answer4.nextRepoVersion, 2)) {
+      answer4 = await inquirer.prompt(question4());
+    }
+    Object.assign(config, answer4);
+  }
+  const answer5 = await inquirer.prompt(question5());
+  Object.assign(config, answer5);
   updateVersion();
 };
 
@@ -219,28 +234,63 @@ function getCurrentRepoVersion() {
     return null;
   }
 }
-function checkIsVersionValid(version) {
+function checkIsVersionValid(version, from = 1) {
+  // from 1:package.json 2.command line
   const isValid = semver.valid(version);
   if (!isValid) {
     console.log(
-      chalk.red(`🚨 当前版本号(${version})不合法，请检查 package.json`)
+      chalk.red(
+        `🚨 当前版本号(${version})不合法，${
+          from === 1 ? "请检查 package.json" : "请重试"
+        }`
+      )
     );
   }
   return isValid;
 }
-function getNextRepoVersionOptions(currentRepoVersion) {
+async function getNextRepoVersionOptions(currentRepoVersion) {
+  let cpatchVer;
+  let lastBumpVerTime;
+  try {
+    lastBumpVerTime = await execAsync(
+      `git log -1 --pretty=format:%ci ${
+        config.isRemoteBranchExists ? "origin/" : ""
+      }${config.targetBranchName} package.json`
+    );
+  } catch (error) {
+    console.log(chalk.red(`获取历史版本提交日期异常': ${error}`));
+    return {}
+  }
+  const oneDay = 1000 * 60 * 60 * 24;
+  const difference = Math.abs(new Date() - new Date(lastBumpVerTime.stdout));
+  const goneDays = Math.ceil(difference / oneDay);
+  cpatchVer = incrementVersionLastDigit(
+    semver.inc(currentRepoVersion, "patch"),
+    goneDays * 10
+  );
   return {
-    // customer // TODO
     major: semver.inc(currentRepoVersion, "major"),
     minor: semver.inc(currentRepoVersion, "minor"),
     patch: semver.inc(currentRepoVersion, "patch"),
+    mbpatch: cpatchVer,
     premajor: semver.inc(currentRepoVersion, "premajor"),
     preminor: semver.inc(currentRepoVersion, "preminor"),
     prepatch: semver.inc(currentRepoVersion, "prepatch"),
     prerelease_alpha: semver.inc(currentRepoVersion, "prerelease", "alpha"),
     prerelease_beta: semver.inc(currentRepoVersion, "prerelease", "beta"),
     prerelease_rc: semver.inc(currentRepoVersion, "prerelease", "rc"),
+    custom: "自定义本次发布版本号",
   };
+}
+function incrementVersionLastDigit(version, increment) {
+  const versionArr = version.split(".");
+  const lastDigit = versionArr[versionArr.length - 1];
+  const lastDigitInt = parseInt(lastDigit);
+  const newLastDigit = lastDigitInt + increment;
+  const newLastDigitStr = newLastDigit.toString();
+  versionArr[versionArr.length - 1] = newLastDigitStr;
+  const newVersion = versionArr.join(".");
+  return newVersion;
 }
 async function updateVersion() {
   console.log(chalk.green("🎡 Start to release..."));
