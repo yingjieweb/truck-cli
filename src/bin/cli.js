@@ -15,9 +15,9 @@ program
 
 program
   .command("checkupdate")
-  .description("Check for updates.")
+  .description("Check Truck-CLI version for updates.")
   .action(() => {
-    checkUpdateAPI.checkForUpdate(pkg.version);
+    checkUpdateAPI.checkUpdate(pkg.version);
   });
 
 program
