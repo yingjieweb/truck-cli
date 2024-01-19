@@ -35,7 +35,7 @@ yarn global add truck-cli
 ## 使用 👨‍💻
 
 ```
-使用方式: truck-cli [选项] [命令]
+使用方式: tk [选项] [命令]
 
 一款精简前端 CI/CD 工作流程不可或缺的工具。
 
@@ -43,12 +43,15 @@ yarn global add truck-cli
   -V, --version     显示版本号
   -h, --help        显示命令的帮助信息
 
-Commands:
+命令:
+  checkupdate       检查 truck-cli 是否有新版本
   release           更新当前仓库的版本
   config [选项]      设置 truck-cli 的运行配置
   lang [选项]        设置当前仓库的语言
   help [命令]        显示命令的帮助信息
 ```
+
+🚩 **checkupdate**: 这个命令用于检查 Truck-CLI 的版本。当你执行这个命令时，Truck-CLI 将检查自身的最新版本，并显示结果。如果 Truck-CLI 的版本不是最新的，它会引导你更新 Truck-CLI。
 
 🚩 **release**: 你需要在项目中拥有一个 `package.json` 文件。请注意，`package.json` 文件中的 `version` 字段必须是一个有效的语义化版本号。在项目根目录执行 `tk release` 命令来更新项目的版本。你可以使用 `config` 命令来满足不同的用例。
 
