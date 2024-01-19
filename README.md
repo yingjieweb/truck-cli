@@ -35,7 +35,7 @@ yarn global add truck-cli
 ## Usage 👨‍💻
 
 ```
-Usage: truck-cli [options] [command]
+Usage: tk [options] [command]
 
 A command-line tool for streamlining the front-end CI/CD workflow.
 
@@ -44,11 +44,14 @@ Options:
   -h, --help        display help for command
 
 Commands:
+  checkupdate       Check Truck-CLI version for updates.
   release           Update the version of the current repository.
   config [options]  Set the runtime config of truck-cli.
   lang [options]    Set the language of the current repository.
   help [command]    display help for command.
 ```
+
+🚩 **checkupdate**: This command is used to check the version of Truck-CLI. When you execute this command, Truck-CLI will check the latest version of itself and display the result. If the version of Truck-CLI is not the latest, it will prompt you to update Truck-CLI.
 
 🚩 **release**: You are supposed to have a `package.json` file in your project. Please note that the `version` field in your `package.json` file must be a valid semantic version. Execute the `tk release` in your project root directory to update the version of your project. And you can use the `config` command to satisfy different use cases.
 
