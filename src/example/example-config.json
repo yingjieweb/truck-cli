@@ -1,5 +1,5 @@
 {
   "lang": "en",
   "isNeedCheckMerge": true,
-  "targetBranchName": "master"
+  "targetBranch": "master"
 }

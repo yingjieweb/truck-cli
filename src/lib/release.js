@@ -10,7 +10,7 @@ const execAsync = util.promisify(require("child_process").exec);
 const { execSync } = require("child_process");
 
 const config = {
-  targetBranchName: "",
+  targetBranch: "",
   isLocalBranchExists: false,
   isRemoteBranchExists: false,
   currentRepoVersion: "1.0.0",
@@ -32,7 +32,7 @@ const question1 = {
 };
 const question2 = {
   type: "input",
-  name: "targetBranchName",
+  name: "targetBranch",
   message: `请输入需要检测合并的目标分支名`,
   default: "master",
 };
@@ -58,8 +58,8 @@ const question5 = () => ({
 });
 
 module.exports.release = async () => {
-  // const isClean = await checkIsWorkspaceClean();
-  // if (!isClean) return;
+  const isClean = await checkIsWorkspaceClean();
+  if (!isClean) return;
   let isNeedCheckMerge = getFieldFromRC("isNeedCheckMerge");
   if (isNeedCheckMerge === undefined) {
     const answer1 = await inquirer.prompt(question1);
@@ -68,8 +68,8 @@ module.exports.release = async () => {
     isNeedCheckMerge = answer1.isNeedCheckMerge;
   }
   if (isNeedCheckMerge) {
-    const targetBranchName = getFieldFromRC("targetBranchName");
-    if (!targetBranchName) {
+    const targetBranch = getFieldFromRC("targetBranch");
+    if (!targetBranch) {
       const answer2 = await inquirer.prompt(question2);
       Object.assign(config, answer2);
       let isTargetBranchExist = await checkIsTargetBranchExist();
@@ -78,14 +78,14 @@ module.exports.release = async () => {
         Object.assign(config, answer2);
         isTargetBranchExist = await checkIsTargetBranchExist();
       }
-      setFieldToRC("targetBranchName", answer2.targetBranchName);
+      setFieldToRC("targetBranch", answer2.targetBranch);
     }
-    Object.assign(config, { targetBranchName });
+    Object.assign(config, { targetBranch });
     const isMergedTarget = await checkIsMergedTarget();
     if (!isMergedTarget) {
       console.log(
         chalk.red(
-          `当前分支未合并目标分支(${config.targetBranchName})，请先合并后再执行发布`
+          `当前分支未合并目标分支(${config.targetBranch})，请先合并后再执行发布`
         )
       );
       return;
@@ -165,8 +165,8 @@ function setFieldToRC(fieldName, fieldValue) {
 }
 async function checkIsTargetBranchExist() {
   return (
-    isLocalBranchExists(config.targetBranchName) ||
-    isRemoteBranchExists(config.targetBranchName)
+    isLocalBranchExists(config.targetBranch) ||
+    isRemoteBranchExists(config.targetBranch)
   );
 }
 function isLocalBranchExists(branchName) {
@@ -197,13 +197,13 @@ async function checkIsMergedTarget() {
     let targetBranchLatestHash;
     if (config.isRemoteBranchExists) {
       targetBranchLatestHash = execSync(
-        `git ls-remote origin ${config.targetBranchName}`
+        `git ls-remote origin ${config.targetBranch}`
       )
         .toString()
         .split(" ")[0];
     } else {
       targetBranchLatestHash = execSync(
-        `git rev-parse ${config.targetBranchName}`
+        `git rev-parse ${config.targetBranch}`
       )
         .toString()
         .split(" ")[0];
@@ -255,11 +255,11 @@ async function getNextRepoVersionOptions(currentRepoVersion) {
     lastBumpVerTime = await execAsync(
       `git log -1 --pretty=format:%ci ${
         config.isRemoteBranchExists ? "origin/" : ""
-      }${config.targetBranchName} package.json`
+      }${config.targetBranch} package.json`
     );
   } catch (error) {
     console.log(chalk.red(`获取历史版本提交日期异常': ${error}`));
-    return {}
+    return {};
   }
   const oneDay = 1000 * 60 * 60 * 24;
   const difference = Math.abs(new Date() - new Date(lastBumpVerTime.stdout));
