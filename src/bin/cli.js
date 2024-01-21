@@ -30,15 +30,16 @@ program
 program
   .command("config")
   .description("Set the runtime config of truck-cli.")
-  .option("-g, --global", "The global config.")
-  .option("-p, --project", "The project config.")
-  .option("-rn, --repo-name <repoName>", "The name of the repository.")
   .option(
     "-cm, --check-merge",
-    "Whether need to check the target branch has been merged into the current branch."
+    "If need to check the target branch has been merged into the current branch."
   )
   .option(
-    "-tbn, --target-branch-name <targetBranchName>",
+    "-ncm, --not-check-merge",
+    "If do not need to check the target branch has been merged into the current branch."
+  )
+  .option(
+    "-tb, --target-branch <targetBranch>",
     "The name of the target branch that needs checked merged"
   )
   .action((options) => {
