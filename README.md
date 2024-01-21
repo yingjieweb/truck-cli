@@ -51,11 +51,11 @@ Commands:
   help [command]    display help for command.
 ```
 
-🚩 **checkupdate**: This command is used to check the version of Truck-CLI. When you execute this command, Truck-CLI will check the latest version of itself and display the result. If the version of Truck-CLI is not the latest, it will prompt you to update Truck-CLI.
+🚩 **checkupdate**: This command is used to check the version of Truck-CLI. When you execute this command, Truck-CLI will check the latest version of itself and display the result. If the version of Truck-CLI is not the latest, it will guide you to update Truck-CLI.
 
 🚩 **release**: You are supposed to have a `package.json` file in your project. Please note that the `version` field in your `package.json` file must be a valid semantic version. Execute the `tk release` in your project root directory to update the version of your project. And you can use the `config` command to satisfy different use cases.
 
-🚩 **config**: This command is used to set the runtime config of truck-cli. When you set a config, the config will be saved in the `.truckrc` file. You can set the following configs: `global`、`project`、`repoName`、`checkMerge` and `targetBranchName`. Be careful some configs are not compatible with each other. You will find it in the command execute process.
+🚩 **config**: This command is used to set the runtime config of Truck-CLI. When you set a config, the config will be saved in the `.truckrc` file. You can set the following configs: `checkMerge` and `targetBranch`. These configs will be used to control the behavior of Truck-CLI.
 
 🚩 **lang**: This command is used to set the language of the current repository. Includes inquirer prompt and command messages. Current support languages are: `en`、`zh-CN`.
 
@@ -65,4 +65,4 @@ Commands:
 
 ## License
 
-Truck-CLI is [MIT licensed](LICENSE).
+Truck-CLI is [MIT-licensed](LICENSE).
