@@ -30,12 +30,14 @@ const question1 = {
   message: "是否需要进行分支合并检测？",
   default: true,
 };
-const question2 = {
+const question2 = (messageType) => ({
   type: "input",
   name: "targetBranch",
-  message: `请输入需要检测合并的目标分支名`,
+  message: [`请输入需要检测合并的目标分支名`, `输入的分支不存在，请重新输入`][
+    messageType
+  ],
   default: "master",
-};
+});
 const question3 = () => ({
   type: "list",
   name: "nextRepoVersion",
@@ -68,16 +70,17 @@ module.exports.release = async () => {
     isNeedCheckMerge = answer1.isNeedCheckMerge;
   }
   if (isNeedCheckMerge) {
-    const targetBranch = getFieldFromRC("targetBranch");
+    let targetBranch = getFieldFromRC("targetBranch");
     if (!targetBranch) {
-      const answer2 = await inquirer.prompt(question2);
+      const answer2 = await inquirer.prompt(question2(0));
       Object.assign(config, answer2);
       let isTargetBranchExist = await checkIsTargetBranchExist();
       while (!isTargetBranchExist) {
-        const answer2 = await inquirer.prompt(question2);
+        const answer2 = await inquirer.prompt(question2(1));
         Object.assign(config, answer2);
         isTargetBranchExist = await checkIsTargetBranchExist();
       }
+      targetBranch = answer2.targetBranch;
       setFieldToRC("targetBranch", answer2.targetBranch);
     }
     Object.assign(config, { targetBranch });
@@ -172,8 +175,7 @@ async function checkIsTargetBranchExist() {
 function isLocalBranchExists(branchName) {
   try {
     execSync(`git show-ref --verify --quiet refs/heads/${branchName}`);
-    config.isNeedCheckMerge &&
-      Object.assign(config, { isLocalBranchExists: true });
+    Object.assign(config, { isLocalBranchExists: true });
     return true;
   } catch (error) {
     return false;
@@ -182,8 +184,7 @@ function isLocalBranchExists(branchName) {
 function isRemoteBranchExists(branchName) {
   try {
     execSync(`git show-ref --verify --quiet refs/remotes/origin/${branchName}`);
-    config.isNeedCheckMerge &&
-      Object.assign(config, { isRemoteBranchExists: true });
+    Object.assign(config, { isRemoteBranchExists: true });
     return true;
   } catch (error) {
     return false;
@@ -202,9 +203,7 @@ async function checkIsMergedTarget() {
         .toString()
         .split(" ")[0];
     } else {
-      targetBranchLatestHash = execSync(
-        `git rev-parse ${config.targetBranch}`
-      )
+      targetBranchLatestHash = execSync(`git rev-parse ${config.targetBranch}`)
         .toString()
         .split(" ")[0];
     }
