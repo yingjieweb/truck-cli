@@ -304,4 +304,14 @@ async function updateVersion() {
   execSync(`git push --tags`);
   console.log(chalk.green("Version updated successfully! 🎉"));
   console.log(chalk.green(`New version: ${config.nextRepoVersion}`));
+  try {
+    const cliPath = path.resolve(
+      __dirname,
+      "../../node_modules/.bin/conventional-changelog"
+    );
+    execSync(`${cliPath} -p angular -i CHANGELOG.md -s -r 0`);
+    console.log(chalk.green("Changelog generated successfully! 🎉"));
+  } catch (error) {
+    console.error("Error generating changelog:", error);
+  }
 }
