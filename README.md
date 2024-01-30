@@ -44,15 +44,14 @@ Usage: tk [options] [command]
 A command-line tool for streamlining the front-end CI/CD workflow.
 
 Options:
-  -V, --version     output the version number
-  -h, --help        display help for command
+  -V, --version      output the version number
+  -l, --lang <lang>  Specify the language (en or zh)
+  -h, --help         display help for command
 
 Commands:
-  checkupdate       Check Truck-CLI version for updates.
-  release           Update the version of the current repository.
-  config [options]  Set the runtime config of truck-cli.
-  lang [options]    Set the language of the current repository.
-  help [command]    display help for command.
+  checkupdate        Check Truck-CLI version for updates.
+  release            Update the version of the current repository.
+  config [options]   Set the runtime config of truck-cli.
 ```
 
 🚩 **checkupdate**: This command is used to check the version of Truck-CLI. When you execute this command, Truck-CLI will check the latest version of itself and display the result. If the version of Truck-CLI is not the latest, it will guide you to update Truck-CLI.

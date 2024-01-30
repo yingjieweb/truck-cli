@@ -45,13 +45,13 @@ yarn global add truck-cli
 
 选项:
   -V, --version     显示版本号
+  -l, --lang <lang> 指定当前工具的语言 (en or zh)
   -h, --help        显示命令的帮助信息
 
 命令:
   checkupdate       检查 truck-cli 是否有新版本
   release           更新当前仓库的版本
   config [选项]      设置 truck-cli 的运行配置
-  lang [选项]        设置当前仓库的语言
   help [命令]        显示命令的帮助信息
 ```
 
