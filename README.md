@@ -22,6 +22,10 @@
 
 <!-- ## Why use Truck-CLI? 🤔 -->
 
+## Prerequisites 🚨
+
+Ensure that your Node.js version is 18 or higher.
+
 ## Installation 🛠
 
 ```
