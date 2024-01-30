@@ -47,12 +47,7 @@ program
   });
 
 program
-  .command("lang")
-  .description("Set the language of the current repository.")
-  .option(
-    "-s, --set <set>",
-    "Set the language for the current repository (en or zh)."
-  )
+  .option("-l, --lang <lang>", "Specify the language (en or zh)")
   .action((options) => {
     setLangAPI.setLang(options);
   });
