@@ -5,10 +5,6 @@ const fs = require("fs");
 
 module.exports.setLang = (options) => {
   const { lang } = options;
-  if (!lang) {
-    console.log(chalk.red("Please use `tk -l en` command to specify language"));
-    return;
-  }
   if (!/^(en|zh)$/i.test(lang)) {
     console.error(chalk.red('Invalid language. Please use "en" or "zh".'));
     return;
