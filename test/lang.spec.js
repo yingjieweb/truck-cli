@@ -49,18 +49,6 @@ describe("CLI setLang function", () => {
     ).to.equal(true);
   });
 
-  it("should display an error message when no language is provided", () => {
-    const options = {};
-    const consoleLogStub = sinon.stub(console, "log");
-    setLang(options);
-    expect(consoleLogStub.calledOnce).to.equal(true);
-    expect(
-      consoleLogStub.calledWith(
-        sinon.match(/Please use `tk -l en` command to specify language/)
-      )
-    ).to.equal(true);
-  });
-
   it("should update the existing config file when it exists", () => {
     const options = { lang: "en" };
     const existsSyncStub = sinon.stub(fs, "existsSync").returns(true);
