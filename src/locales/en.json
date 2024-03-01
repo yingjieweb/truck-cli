@@ -1,0 +1,5 @@
+{
+  "welcome": "Welcome to Truck-CLI! 🚚",
+  "description":  "A command-line tool for streamlining the front-end CI/CD workflow.",
+  "langInvalidTip": "Invalid language. Please use 'en' or 'zh'."
+}

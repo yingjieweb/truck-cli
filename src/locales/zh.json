@@ -1,0 +1,5 @@
+{
+  "welcome": "欢迎使用 Truck-CLI！🚚",
+  "description":  "一款精简前端 CI/CD 工作流程不可或缺的工具",
+  "langInvalidTip": "无效的语言。请使用 'en' 或 'zh'"
+}

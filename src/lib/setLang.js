@@ -2,11 +2,12 @@ const chalk = require("chalk");
 const path = require("path");
 const rcConfigPath = path.join(process.env.HOME, ".truckclirc");
 const fs = require("fs");
+const i18n = require("i18n");
 
 module.exports.setLang = (options) => {
   const { lang } = options;
   if (!/^(en|zh)$/i.test(lang)) {
-    console.error(chalk.red('Invalid language. Please use "en" or "zh".'));
+    console.error(chalk.red(i18n.__("langInvalidTip")));
     return;
   }
 
@@ -18,5 +19,7 @@ module.exports.setLang = (options) => {
   } else {
     fs.writeFileSync(rcConfigPath, JSON.stringify({ lang }, null, 2));
   }
-  console.log(chalk.green(`Specify language to ${lang}! 🎉`));
+
+  i18n.setLocale(lang)
+  console.log(chalk.blue(i18n.__("welcome")))
 };

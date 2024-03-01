@@ -1,16 +1,24 @@
 #!/usr/bin/env node
 const { program } = require("commander");
+const i18n = require("i18n");
+const fs = require("fs");
+const path = require("path");
+const rcConfigPath = path.join(process.env.HOME, ".truckclirc");
 const pkg = require("../../package.json");
 const checkUpdateAPI = require("../lib/checkUpdate");
 const releaseAPI = require("../lib/release");
 const setConfigAPI = require("../lib/setConfig");
 const setLangAPI = require("../lib/setLang");
 
+i18n.configure({
+  locales: ["en", "zh"],
+  directory: __dirname + "/../locales",
+  defaultLocale: getFieldFromRC("lang") || "en",
+});
+
 program
   .name("truck-cli")
-  .description(
-    "A command-line tool for streamlining the front-end CI/CD workflow."
-  )
+  .description(i18n.__("description"))
   .version(pkg.version);
 
 program
@@ -47,9 +55,21 @@ program
   });
 
 program
-  .option("-l, --lang <lang>", "Specify the language (en or zh)")
+  .requiredOption("-l, --lang <lang>", "Specify the language (en or zh)")
   .action((options) => {
     setLangAPI.setLang(options);
   });
 
 program.parse();
+
+function getFieldFromRC(fieldName) {
+  let fieldValue;
+  if (fs.existsSync(rcConfigPath)) {
+    const rcConfigFile = fs.readFileSync(rcConfigPath, "utf-8");
+    const rcConfigData = JSON.parse(rcConfigFile);
+    if (rcConfigData[fieldName]) {
+      fieldValue = rcConfigData[fieldName];
+    }
+  }
+  return fieldValue;
+}
