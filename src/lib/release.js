@@ -4,8 +4,8 @@ const chalk = require("chalk");
 const fs = require("fs");
 const path = require("path");
 const root = process.cwd();
-const rcConfigPath = path.join(process.env.HOME, ".truckclirc");
 const util = require("util");
+const { getFieldFromRC, setFieldToRC } = require("../utils/ioUtils");
 const execAsync = util.promisify(require("child_process").exec);
 const { execSync } = require("child_process");
 
@@ -134,36 +134,6 @@ async function checkIsWorkspaceClean() {
   } catch (error) {
     console.log(chalk.red(`执行工作区状态检查异常': ${error}`));
     return false;
-  }
-}
-function getFieldFromRC(fieldName) {
-  let fieldValue;
-  if (fs.existsSync(rcConfigPath)) {
-    const rcConfigFile = fs.readFileSync(rcConfigPath, "utf-8");
-    const rcConfigData = JSON.parse(rcConfigFile);
-    if (rcConfigData[fieldName]) {
-      fieldValue = rcConfigData[fieldName];
-    }
-  }
-  return fieldValue;
-}
-function setFieldToRC(fieldName, fieldValue) {
-  if (fs.existsSync(rcConfigPath)) {
-    const rcConfigFile = fs.readFileSync(rcConfigPath, "utf-8");
-    const rcConfigData = JSON.parse(rcConfigFile);
-    rcConfigData[fieldName] = fieldValue;
-    fs.writeFileSync(rcConfigPath, JSON.stringify(rcConfigData, null, 2));
-  } else {
-    fs.writeFileSync(
-      rcConfigPath,
-      JSON.stringify(
-        {
-          [fieldName]: fieldValue,
-        },
-        null,
-        2
-      )
-    );
   }
 }
 async function checkIsTargetBranchExist() {
