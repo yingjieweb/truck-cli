@@ -53,9 +53,13 @@ program
   });
 
 program
-  .requiredOption("-l, --lang <lang>", "Specify the language (en or zh)")
+  .option("-l, --lang <lang>", "Specify the language (en or zh)")
   .action((options) => {
-    setLangAPI.setLang(options);
+    if (options.lang) {
+      setLangAPI.setLang(options);
+    } else {
+      program.outputHelp();
+    }
   });
 
 program.parse();
