@@ -21,7 +21,7 @@ async function checkIfWorkspaceClean() {
     return false;
   }
 }
-async function checkIfTargetBranchExists(targetBranch) {
+function checkIfTargetBranchExists(targetBranch) {
   return (
     checkIfLocalBranchExists(targetBranch) ||
     checkIfRemoteBranchExists(targetBranch)
@@ -43,7 +43,7 @@ function checkIfRemoteBranchExists(branchName) {
     return false;
   }
 }
-async function checkIfMergedTarget(targetBranch) {
+function checkIfMergedTarget(targetBranch) {
   try {
     const currentBranch = execSync("git symbolic-ref --short HEAD")
       .toString()
