@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const { getFieldFromRC, setFieldToRC } = require("../utils/ioUtils");
-const { execSync } = require("child_process");
+const { checkIfTargetBranchExists } = require("../utils/gitUtils");
 
 const question1 = (messageType) => ({
   type: "input",
@@ -53,14 +53,10 @@ module.exports.setConfig = async (options) => {
     const targetBranchFromRc = getFieldFromRC("targetBranch");
     if (!targetBranch && !targetBranchFromRc) {
       let answer1 = await inquirer.prompt(question1(0));
-      let isTargetBranchExist = await checkIsTargetBranchExist(
-        answer1.targetBranch
-      );
+      let isTargetBranchExist = checkIfTargetBranchExists(answer1.targetBranch);
       while (!isTargetBranchExist) {
         answer1 = await inquirer.prompt(question1(1));
-        isTargetBranchExist = await checkIsTargetBranchExist(
-          answer1.targetBranch
-        );
+        isTargetBranchExist = checkIfTargetBranchExists(answer1.targetBranch);
       }
       setFieldToRC("targetBranch", answer1.targetBranch);
       console.log(
@@ -79,13 +75,11 @@ module.exports.setConfig = async (options) => {
     return;
   }
   if (targetBranch) {
-    let isTargetBranchExist = await checkIsTargetBranchExist(targetBranch);
+    let isTargetBranchExist = checkIfTargetBranchExists(targetBranch);
     let answer1;
     while (!isTargetBranchExist) {
       answer1 = await inquirer.prompt(question1(1));
-      isTargetBranchExist = await checkIsTargetBranchExist(
-        answer1.targetBranch
-      );
+      isTargetBranchExist = checkIfTargetBranchExists(answer1.targetBranch);
     }
     setFieldToRC("targetBranch", answer1.targetBranch);
     console.log(
@@ -107,25 +101,3 @@ module.exports.setConfig = async (options) => {
     return;
   }
 };
-
-async function checkIsTargetBranchExist(targetBranch) {
-  return (
-    isLocalBranchExists(targetBranch) || isRemoteBranchExists(targetBranch)
-  );
-}
-function isLocalBranchExists(branchName) {
-  try {
-    execSync(`git show-ref --verify --quiet refs/heads/${branchName}`);
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-function isRemoteBranchExists(branchName) {
-  try {
-    execSync(`git show-ref --verify --quiet refs/remotes/origin/${branchName}`);
-    return true;
-  } catch (error) {
-    return false;
-  }
-}

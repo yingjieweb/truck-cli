@@ -5,14 +5,17 @@ const fs = require("fs");
 const path = require("path");
 const root = process.cwd();
 const util = require("util");
-const { getFieldFromRC, setFieldToRC } = require("../utils/ioUtils");
 const execAsync = util.promisify(require("child_process").exec);
 const { execSync } = require("child_process");
+const { getFieldFromRC, setFieldToRC } = require("../utils/ioUtils");
+const {
+  checkIfWorkspaceClean,
+  checkIfTargetBranchExists,
+  checkIfMergedTarget
+} = require("../utils/gitUtils");
 
 const config = {
   targetBranch: "",
-  isLocalBranchExists: false,
-  isRemoteBranchExists: false,
   currentRepoVersion: "1.0.0",
   nextRepoVersionOptions: {
     custom: "custom",
@@ -60,7 +63,7 @@ const question5 = () => ({
 });
 
 module.exports.release = async () => {
-  const isClean = await checkIsWorkspaceClean();
+  const isClean = await checkIfWorkspaceClean();
   if (!isClean) return;
   let isNeedCheckMerge = getFieldFromRC("isNeedCheckMerge");
   if (isNeedCheckMerge === undefined) {
@@ -74,17 +77,26 @@ module.exports.release = async () => {
     if (!targetBranch) {
       const answer2 = await inquirer.prompt(question2(0));
       Object.assign(config, answer2);
-      let isTargetBranchExist = await checkIsTargetBranchExist();
-      while (!isTargetBranchExist) {
+      let isTargetBranchExists = checkIfTargetBranchExists(config.targetBranch)
+      while (!isTargetBranchExists) {
         const answer2 = await inquirer.prompt(question2(1));
         Object.assign(config, answer2);
-        isTargetBranchExist = await checkIsTargetBranchExist();
+        isTargetBranchExists = checkIfTargetBranchExists(config.targetBranch)
       }
       targetBranch = answer2.targetBranch;
       setFieldToRC("targetBranch", answer2.targetBranch);
     }
+    const isTargetBranchExists = checkIfTargetBranchExists(targetBranch)
+    if (!isTargetBranchExists) {
+      console.log(
+        chalk.red(
+          `目标分支(${targetBranch})不存在，请先创建目标分支再执行发布`
+        )
+      )
+      return 
+    }
     Object.assign(config, { targetBranch });
-    const isMergedTarget = await checkIsMergedTarget();
+    const isMergedTarget = await checkIfMergedTarget(targetBranch);
     if (!isMergedTarget) {
       console.log(
         chalk.red(
@@ -118,73 +130,6 @@ module.exports.release = async () => {
   updateVersion();
 };
 
-async function checkIsWorkspaceClean() {
-  try {
-    const { stdout, stderr } = await execAsync("git status --porcelain");
-    if (stderr) {
-      console.log(chalk.red(`执行工作区状态检查异常': ${stderr}`));
-      return false;
-    }
-    if (stdout) {
-      console.log(stdout);
-      console.log(chalk.red("🚨 工作区有未提交的修改, 请提交修改后再发布!"));
-      return false;
-    }
-    return true;
-  } catch (error) {
-    console.log(chalk.red(`执行工作区状态检查异常': ${error}`));
-    return false;
-  }
-}
-async function checkIsTargetBranchExist() {
-  return (
-    isLocalBranchExists(config.targetBranch) ||
-    isRemoteBranchExists(config.targetBranch)
-  );
-}
-function isLocalBranchExists(branchName) {
-  try {
-    execSync(`git show-ref --verify --quiet refs/heads/${branchName}`);
-    Object.assign(config, { isLocalBranchExists: true });
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-function isRemoteBranchExists(branchName) {
-  try {
-    execSync(`git show-ref --verify --quiet refs/remotes/origin/${branchName}`);
-    Object.assign(config, { isRemoteBranchExists: true });
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-async function checkIsMergedTarget() {
-  try {
-    const currentBranch = execSync("git symbolic-ref --short HEAD")
-      .toString()
-      .trim();
-    let targetBranchLatestHash;
-    if (config.isRemoteBranchExists) {
-      targetBranchLatestHash = execSync(
-        `git ls-remote origin ${config.targetBranch}`
-      )
-        .toString()
-        .split(" ")[0];
-    } else {
-      targetBranchLatestHash = execSync(`git rev-parse ${config.targetBranch}`)
-        .toString()
-        .split(" ")[0];
-    }
-    return execSync(`git branch --contains ${targetBranchLatestHash}`)
-      .toString()
-      .includes(currentBranch);
-  } catch (error) {
-    console.log(chalk.red(`检测分支合并情况出错: ${error.message}`));
-    return false;
-  }
-}
 function getCurrentRepoVersion() {
   try {
     const packagePath = path.resolve(root, "package.json");
