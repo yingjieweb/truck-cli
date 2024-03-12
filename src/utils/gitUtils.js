@@ -21,6 +21,11 @@ async function checkIfWorkspaceClean() {
     return false;
   }
 }
+function getCurrentBranch() {
+  return execSync("git symbolic-ref --short HEAD")
+    .toString()
+    .trim();
+}
 function checkIfTargetBranchExists(targetBranch) {
   return (
     checkIfLocalBranchExists(targetBranch) ||
@@ -45,9 +50,7 @@ function checkIfRemoteBranchExists(branchName) {
 }
 function checkIfMergedTarget(targetBranch) {
   try {
-    const currentBranch = execSync("git symbolic-ref --short HEAD")
-      .toString()
-      .trim();
+    const currentBranch = getCurrentBranch()
     let targetBranchLatestHash;
     if (checkIfRemoteBranchExists(targetBranch)) {
       targetBranchLatestHash = execSync(
@@ -70,6 +73,7 @@ function checkIfMergedTarget(targetBranch) {
 }
 
 module.exports = {
+  getCurrentBranch,
   checkIfWorkspaceClean,
   checkIfTargetBranchExists,
   checkIfLocalBranchExists,
