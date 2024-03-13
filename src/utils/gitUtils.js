@@ -22,9 +22,7 @@ async function checkIfWorkspaceClean() {
   }
 }
 function getCurrentBranch() {
-  return execSync("git symbolic-ref --short HEAD")
-    .toString()
-    .trim();
+  return execSync("git symbolic-ref --short HEAD").toString().trim();
 }
 function checkIfTargetBranchExists(targetBranch) {
   return (
@@ -50,12 +48,10 @@ function checkIfRemoteBranchExists(branchName) {
 }
 function checkIfMergedTarget(targetBranch) {
   try {
-    const currentBranch = getCurrentBranch()
+    const currentBranch = getCurrentBranch();
     let targetBranchLatestHash;
     if (checkIfRemoteBranchExists(targetBranch)) {
-      targetBranchLatestHash = execSync(
-        `git ls-remote origin ${targetBranch}`
-      )
+      targetBranchLatestHash = execSync(`git ls-remote origin ${targetBranch}`)
         .toString()
         .split(" ")[0];
     } else {
@@ -73,10 +69,10 @@ function checkIfMergedTarget(targetBranch) {
 }
 
 module.exports = {
-  getCurrentBranch,
   checkIfWorkspaceClean,
+  getCurrentBranch,
   checkIfTargetBranchExists,
   checkIfLocalBranchExists,
   checkIfRemoteBranchExists,
-  checkIfMergedTarget
+  checkIfMergedTarget,
 };
