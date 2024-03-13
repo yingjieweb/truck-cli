@@ -24,6 +24,19 @@ async function checkIfWorkspaceClean() {
 function getCurrentBranch() {
   return execSync("git symbolic-ref --short HEAD").toString().trim();
 }
+function checkIfRemoteRepoExists() {
+  try {
+    const output = execSync("git remote -v").toString();
+    return output.trim() !== "";
+  } catch {
+    console.error(
+      chalk.red(
+        "Error: No remote repository found. Please add a remote repository."
+      )
+    );
+    return false;
+  }
+}
 function checkIfTargetBranchExists(targetBranch) {
   return (
     checkIfLocalBranchExists(targetBranch) ||
@@ -71,6 +84,7 @@ function checkIfMergedTarget(targetBranch) {
 module.exports = {
   checkIfWorkspaceClean,
   getCurrentBranch,
+  checkIfRemoteRepoExists,
   checkIfTargetBranchExists,
   checkIfLocalBranchExists,
   checkIfRemoteBranchExists,
