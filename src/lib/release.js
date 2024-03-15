@@ -143,22 +143,20 @@ async function updateVersion() {
   } catch (error) {
     console.log(error);
   }
-  const currentBranch = getCurrentBranch()
-  const isRemoteRepoExists = checkIfRemoteRepoExists()
-  const isRemoteBranchExists =  checkIfRemoteBranchExists(currentBranch)
+  const currentBranch = getCurrentBranch();
+  const isRemoteRepoExists = checkIfRemoteRepoExists();
+  const isRemoteBranchExists = checkIfRemoteBranchExists(currentBranch);
   if (!isRemoteRepoExists) {
     console.log(
-      chalk.yellow(
-        `请注意：当前仓库未推送到远程，请及时设置 origin`
-      )
-    )
+      chalk.yellow(`请注意：当前仓库未推送到远程，请及时设置 origin`)
+    );
   }
   if (isRemoteRepoExists && !isRemoteBranchExists) {
     console.log(
       chalk.yellow(
         `请注意：当前分支(${currentBranch})未推送到远程，请及时设置 upstream`
       )
-    )
+    );
   }
   if (isRemoteRepoExists && isRemoteBranchExists) {
     execSync(`git push`);
