@@ -29,7 +29,7 @@ function checkIfRemoteRepoExists() {
     const output = execSync("git remote -v").toString();
     return output.trim() !== "";
   } catch {
-    console.error(
+    console.log(
       chalk.red(
         "Error: No remote repository found. Please add a remote repository."
       )

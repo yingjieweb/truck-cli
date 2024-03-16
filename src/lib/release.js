@@ -172,6 +172,6 @@ async function updateVersion() {
     execSync(`${cliPath} -p angular -i CHANGELOG.md -s -r 0`);
     console.log(chalk.green("Changelog generated successfully! 🎉"));
   } catch (error) {
-    console.error("Error generating changelog:", error);
+    console.log("Error generating changelog:", error);
   }
 }

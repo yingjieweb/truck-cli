@@ -7,7 +7,7 @@ const i18n = require("i18n");
 module.exports.setLang = (options) => {
   const { lang } = options;
   if (!/^(en|zh)$/i.test(lang)) {
-    console.error(chalk.red(i18n.__("langInvalidTip")));
+    console.log(chalk.red(i18n.__("langInvalidTip")));
     return;
   }
 

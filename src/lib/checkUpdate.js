@@ -21,7 +21,7 @@ module.exports.checkUpdate = async (localVersion) => {
     latestVersion = response.data["dist-tags"].latest;
   } catch (error) {
     spinner.fail("Load failed");
-    console.error(
+    console.log(
       chalk.red("Failed to get the latest version. Please try again later.")
     );
     return;
@@ -43,7 +43,7 @@ module.exports.checkUpdate = async (localVersion) => {
           chalk.green(`Truck-CLI updated to version ${latestVersion}`)
         );
       } catch (error) {
-        console.error(chalk.red(`Error updating Truck-CLI: ${error}`));
+        console.log(chalk.red(`Error updating Truck-CLI: ${error}`));
       }
     } else {
       console.log(
