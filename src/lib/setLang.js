@@ -7,7 +7,7 @@ const i18n = require("i18n");
 module.exports.setLang = (options) => {
   const { lang } = options;
   if (!/^(en|zh)$/i.test(lang)) {
-    console.log(chalk.red(i18n.__("langInvalidTip")));
+    console.error(chalk.red(i18n.__("langInvalidTip")));
     return;
   }
 
@@ -20,6 +20,6 @@ module.exports.setLang = (options) => {
     fs.writeFileSync(rcConfigPath, JSON.stringify({ lang }, null, 2));
   }
 
-  i18n.setLocale(lang)
-  console.log(chalk.blue(i18n.__("welcome")))
+  i18n.setLocale(lang);
+  console.log(chalk.blue(i18n.__("welcome")));
 };
