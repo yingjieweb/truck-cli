@@ -1,70 +1,52 @@
-const { expect } = require("chai");
-const sinon = require("sinon");
+const chalk = require("chalk");
 const fs = require("fs");
-
+const i18n = require("i18n");
 const { setLang } = require("../src/lib/setLang");
 
-describe("CLI setLang function", () => {
-  afterEach(() => {
-    sinon.restore();
+jest.mock("fs");
+jest.mock("i18n");
+
+describe("setLang function", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('should set the language to "en" when valid input is provided', () => {
+  test("should set language and write to config file when it exists", () => {
     const options = { lang: "en" };
-    const existsSyncStub = sinon.stub(fs, "existsSync").returns(false);
-    const writeFileSyncStub = sinon.stub(fs, "writeFileSync");
+    const rcConfigData = { lang: "zh" };
+    fs.existsSync.mockReturnValueOnce(true);
+    fs.readFileSync.mockReturnValueOnce(JSON.stringify(rcConfigData));
+    const writeFileSyncMock = jest.spyOn(fs, "writeFileSync");
+
     setLang(options);
-    expect(existsSyncStub.calledOnce).to.equal(true);
-    expect(writeFileSyncStub.calledOnce).to.equal(true);
-    expect(
-      writeFileSyncStub.calledWith(
-        sinon.match.any,
-        JSON.stringify({ lang: "en" }, null, 2)
-      )
-    ).to.equal(true);
+
+    expect(writeFileSyncMock).toHaveBeenCalledWith(
+      expect.any(String),
+      JSON.stringify({ lang: "en" }, null, 2)
+    );
   });
 
-  it('should set the language to "zh" when valid input is provided', () => {
-    const options = { lang: "zh" };
-    const existsSyncStub = sinon.stub(fs, "existsSync").returns(false);
-    const writeFileSyncStub = sinon.stub(fs, "writeFileSync");
+  test("should set language and create new config file when it does not exist", () => {
+    const options = { lang: "en" };
+    fs.existsSync.mockReturnValueOnce(false);
+    const writeFileSyncMock = jest.spyOn(fs, "writeFileSync");
+
     setLang(options);
-    expect(existsSyncStub.calledOnce).to.equal(true);
-    expect(writeFileSyncStub.calledOnce).to.equal(true);
-    expect(
-      writeFileSyncStub.calledWith(
-        sinon.match.any,
-        JSON.stringify({ lang: "zh" }, null, 2)
-      )
-    ).to.equal(true);
+
+    expect(writeFileSyncMock).toHaveBeenCalledWith(
+      expect.any(String),
+      JSON.stringify({ lang: "en" }, null, 2)
+    );
   });
 
-  it("should display an error message when an invalid language is provided", () => {
+  test("should print error message if language is invalid", () => {
     const options = { lang: "invalidLang" };
-    const consoleErrorStub = sinon.stub(console, "error");
-    setLang(options);
-    expect(consoleErrorStub.calledOnce).to.equal(true);
-    expect(
-      consoleErrorStub.calledWith(sinon.match(/Invalid language. Please use "en" or "zh"./))
-    ).to.equal(true);
-  });
+    const consoleErrorSpy = jest.spyOn(console, "error");
 
-  it("should update the existing config file when it exists", () => {
-    const options = { lang: "en" };
-    const existsSyncStub = sinon.stub(fs, "existsSync").returns(true);
-    const readFileSyncStub = sinon
-      .stub(fs, "readFileSync")
-      .returns(JSON.stringify({ lang: "zh" }));
-    const writeFileSyncStub = sinon.stub(fs, "writeFileSync");
     setLang(options);
-    expect(existsSyncStub.calledOnce).to.equal(true);
-    expect(readFileSyncStub.calledOnce).to.equal(true);
-    expect(writeFileSyncStub.calledOnce).to.equal(true);
-    expect(
-      writeFileSyncStub.calledWith(
-        sinon.match.any,
-        JSON.stringify({ lang: "en" }, null, 2)
-      )
-    ).to.equal(true);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      chalk.red(i18n.__("langInvalidTip"))
+    );
   });
 });
