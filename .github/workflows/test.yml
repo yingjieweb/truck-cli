@@ -21,13 +21,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: ./node_modules/.bin/nyc ./node_modules/.bin/mocha test/*.js
+      - name: Run tests with coverage
+        run: npm test
 
-      - name: Get coverage
-        run: ./node_modules/.bin/nyc report --reporter=cobertura
+      - name: Generate cobertura coverage report
+        run: npm run coverage:xml
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/cobertura-coverage.xml
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
